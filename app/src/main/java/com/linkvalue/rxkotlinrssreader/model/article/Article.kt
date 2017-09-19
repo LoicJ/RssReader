@@ -1,5 +1,9 @@
-package com.linkvalue.rxkotlinrssreader.model
+package com.linkvalue.rxkotlinrssreader.model.article
 
+import android.arch.persistence.room.Entity
+import android.arch.persistence.room.PrimaryKey
+import android.arch.persistence.room.TypeConverters
+import com.linkvalue.rxkotlinrssreader.components.DateTypeAdapter
 import java.util.Date
 
 /**
@@ -8,14 +12,17 @@ import java.util.Date
 //class Article (private var title: String, private var date: Date, private var description: String, private var image: String,
 //               private var id: Long = 0, private var isRead: Boolean = false): Comparable<Article> {
 
+const val TABLE_NAME = "Articles"
+
+@Entity(tableName = TABLE_NAME)
 class Article() : Comparable<Article> {
 
-    val ARTICLE_ID = "Id"
+    @PrimaryKey(autoGenerate = true)
+    var id: Long = 0
     var title: String? = null
     var date: Date? = null
     var description: String? = null
     var image: String? = null
-    var id: Long = 0
     var isRead: Boolean = false
 
     override fun compareTo(other: Article): Int {

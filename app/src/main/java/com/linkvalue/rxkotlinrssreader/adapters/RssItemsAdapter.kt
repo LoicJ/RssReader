@@ -1,13 +1,9 @@
 package com.linkvalue.rxkotlinrssreader.adapters
 
 import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.drawable.Drawable
 import android.net.Uri
-import android.os.Build
 import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.RecyclerView.Adapter
 import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
@@ -15,10 +11,9 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.linkvalue.rxkotlinrssreader.R
-import com.linkvalue.rxkotlinrssreader.model.Article
+import com.linkvalue.rxkotlinrssreader.model.article.Article
 
 import com.squareup.picasso.Picasso
-import com.squareup.picasso.Target
 
 import java.util.ArrayList
 
@@ -53,9 +48,9 @@ class RssItemsAdapter(mArticleList: List<Article>?, private val context: Context
         val current = mArticleList!![position]
         val myViewHolder = holder as MyViewHolder
         val picUrl : String?
-        if (!current.isRead && myViewHolder?.cardView.getAlpha() !== NOT_READ_ALPHA) {
+        if (!current.isRead && myViewHolder.cardView.getAlpha() !== NOT_READ_ALPHA) {
             myViewHolder.cardView.setAlpha(NOT_READ_ALPHA)
-        } else if (current.isRead && myViewHolder?.cardView.getAlpha() !== IS_READ_ALPHA) {
+        } else if (current.isRead && myViewHolder.cardView.getAlpha() !== IS_READ_ALPHA) {
             myViewHolder.cardView.setAlpha(IS_READ_ALPHA)
         }
         myViewHolder.title.setText(current.title)

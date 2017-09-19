@@ -1,8 +1,10 @@
-package com.linkvalue.rxkotlinrssreader
+package com.linkvalue.rxkotlinrssreader.components
 
 import android.util.Log
-import com.linkvalue.rxkotlinrssreader.model.Article
-import org.jsoup.Jsoup
+import com.linkvalue.rxkotlinrssreader.model.article.Article
+import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import org.jsoup.Jsoup.*
 import org.xmlpull.v1.XmlPullParser
 import org.xmlpull.v1.XmlPullParserException
@@ -20,6 +22,7 @@ import kotlin.collections.ArrayList
  * Created by loic - LinkValue on 19/05/17.
  */
 
+private val RSS_URL = "http://www.frandroid.com/feed"
 
 fun loadNews(url: String): List<Article>? {
     val tempArticleList = ArrayList<Article>()
@@ -32,7 +35,7 @@ fun loadNews(url: String): List<Article>? {
         conn.connect()
         val stream = conn.inputStream
         tempArticleList.addAll(parseRssFeed(stream));
-
+        addArticlesToCache(tempArticleList)
         stream.close()
     } catch (e: IOException) {
         Log.e("Contacting server", "Error while connecting server")
@@ -46,7 +49,6 @@ fun loadNews(url: String): List<Article>? {
     } finally {
 
         return tempArticleList
-
     }
 }
 
@@ -138,4 +140,12 @@ fun parseRssFeed(stream: InputStream): List<Article> {
     }
 
     return tempArticleList
+}
+
+fun retrieveAllArticlesFromRemote(): Observable<List<Article>?> {
+
+    return Observable.fromCallable { loadNews(RSS_URL) }
+            .subscribeOn(Schedulers.newThread())
+            .observeOn(AndroidSchedulers.mainThread())
+
 }
