@@ -2,7 +2,6 @@ package com.linkvalue.rxkotlinrssreader.model.article
 
 import android.arch.persistence.room.Entity
 import android.arch.persistence.room.PrimaryKey
-import android.arch.persistence.room.TypeConverters
 import com.linkvalue.rxkotlinrssreader.components.DateTypeAdapter
 import java.util.Date
 
